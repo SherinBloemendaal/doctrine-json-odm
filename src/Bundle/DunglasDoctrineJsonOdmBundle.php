@@ -11,8 +11,10 @@ namespace Dunglas\DoctrineJsonOdm\Bundle;
 
 use Doctrine\DBAL\Types\JsonbType;
 use Doctrine\DBAL\Types\Type;
+use Dunglas\DoctrineJsonOdm\Bundle\DependencyInjection\Compiler\SerializerProfilerPass;
 use Dunglas\DoctrineJsonOdm\Type\JsonbDocumentType;
 use Dunglas\DoctrineJsonOdm\Type\JsonDocumentType;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -31,6 +33,11 @@ final class DunglasDoctrineJsonOdmBundle extends Bundle
         if (class_exists(JsonbType::class) && !Type::hasType('jsonb_document')) {
             Type::addType('jsonb_document', JsonbDocumentType::class);
         }
+    }
+
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new SerializerProfilerPass());
     }
 
     /**
