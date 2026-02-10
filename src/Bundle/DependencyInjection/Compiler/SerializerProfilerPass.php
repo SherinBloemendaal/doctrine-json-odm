@@ -22,6 +22,11 @@ final class SerializerProfilerPass implements CompilerPassInterface
             return;
         }
 
+        // TraceableSerializer was introduced in Symfony 6.1
+        if (!class_exists(TraceableSerializer::class)) {
+            return;
+        }
+
         if (!$container->hasDefinition('serializer.data_collector')) {
             return;
         }
